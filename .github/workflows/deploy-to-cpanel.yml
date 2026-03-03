@@ -42,8 +42,6 @@ jobs:
 
       - name: Deploy via FTP fallback
         # conditionally run when FTP credentials exist and SSH key is not set.
-        # using secrets in an "if" can trigger a parser warning but it still works
-        # (GitHub shows "Unrecognized named-value" in logs). we keep it for clarity.
         if: ${{ secrets.FTP_PASS != '' && secrets.SSH_PRIVATE_KEY == '' }}
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
         with:
@@ -51,5 +49,5 @@ jobs:
           username: ${{ secrets.FTP_USER }}
           password: ${{ secrets.FTP_PASS }}
           local-dir: .
-          # action requires a trailing slash to treat path as folder
-          server-dir: ${{ secrets.REMOTE_PATH }}/
+          # hardcode path with trailing slash to avoid parsing issues
+          server-dir: /home/wartajan/public_html/
