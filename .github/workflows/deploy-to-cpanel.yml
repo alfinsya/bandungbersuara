@@ -3,8 +3,8 @@ name: Build and Deploy to cPanel
 on:
   push:
     branches: [ main ]
-  repository_dispatch:
   workflow_dispatch:
+  repository_dispatch:
 
 jobs:
   build-and-deploy:
@@ -24,6 +24,14 @@ jobs:
 
       - name: Run static generator
         run: node tools/generate.js
+        env:
+          SHEETS_URL: ${{ secrets.SHEETS_URL }}
+
+      - name: Show workspace contents (debug)
+        run: |
+          echo "CWD: $(pwd)"
+          echo "Files:"; ls -al
+          for p in index.html css img js article articles.json; do echo "--- $p ---"; ls -al "$p" || true; done
 
       - name: Deploy to cPanel via FTP
         uses: SamKirkland/FTP-Deploy-Action@4.3.0
