@@ -1,4 +1,4 @@
-const axios = require('axios');
+﻿const axios = require('axios');
 const fs = require('fs');
 const path = require('path');
 const Handlebars = require('handlebars');
@@ -88,6 +88,39 @@ function extractFirstImage(content) {
   return 'img/logo.png';
 }
 
+function detectCategory(title, content) {
+  const text = title.toLowerCase();
+  
+  // Check for specific keywords in title and assign categories
+  if (text.includes('perhutani') || text.includes('kehutanan') || text.includes('hutan')) {
+    return 'Perhutani';
+  }
+  if (text.includes('lingkungan') || text.includes('pohon') || text.includes('penanaman') || text.includes('reboisasi') || text.includes('pelestarian')) {
+    return 'Lingkungan';
+  }
+  if (text.includes('ekonomi') || text.includes('umkm') || text.includes('koperasi') || text.includes('usaha') || text.includes('bisnis')) {
+    return 'Ekonomi';
+  }
+  if (text.includes('digital') || text.includes('teknologi') || text.includes('komputasional') || text.includes('internet') || text.includes('cloud')) {
+    return 'Teknologi';
+  }
+  if (text.includes('olahraga') || text.includes('timnas') || text.includes('sepak bola') || text.includes('persib') || text.includes('bojan') || text.includes('kurzawa')) {
+    return 'Olahraga';
+  }
+  if (text.includes('pendidikan') || text.includes('mahasiswa') || text.includes('siswa') || text.includes('sekolah') || text.includes('universitas')) {
+    return 'Pendidikan';
+  }
+  if (text.includes('bencana') || text.includes('longsor') || text.includes('banjir') || text.includes('gempa')) {
+    return 'Bencana';
+  }
+  if (text.includes('sosial') || text.includes('masyarakat') || text.includes('komunitas') || text.includes('kesehatan')) {
+    return 'Sosial';
+  }
+  
+  // Default category
+  return 'News';
+}
+
 function scanLocalArticles() {
   const localArticles = [];
   if (!fs.existsSync(OUT_DIR)) return localArticles;
@@ -116,17 +149,20 @@ function scanLocalArticles() {
       // Extract first image from content
       const imagePath = extractFirstImage(content);
       
+      // Detect category based on title and content
+      const category = detectCategory(title, content);
+      
       localArticles.push({
         title,
         excerpt,
-        category: 'Local',
+        category,
         date: new Date().toISOString().split('T')[0],
         image: imagePath,
         url: `article/${slug}.html`,
         slug,
         isLocal: true
       });
-      console.log(`   📄 ${slug} (image: ${imagePath})`);
+      console.log(`   📄 ${slug} (category: ${category}, image: ${imagePath})`);
     } catch (err) {
       console.warn(`   ⚠️  Error reading ${file}:`, err.message);
     }
@@ -292,8 +328,8 @@ async function generateArticles() {
     console.log(`   ✨ New: ${newCount}`);
     console.log(`   🔄 Updated: ${updateCount}`);
     console.log(`   ⏭️  Skipped: ${skipCount}`);
-    console.log(`   � Local preserved: ${localPreserved}`);
-    console.log(`   �🗑️  Deleted: ${removed.length}`);
+    console.log(`     Local preserved: ${localPreserved}`);
+    console.log(`    🗑️  Deleted: ${removed.length}`);
     console.log(`   📁 Total: ${existingArticles.length}`);
     console.log(`\n✅ Done!`);
   } catch (err) {

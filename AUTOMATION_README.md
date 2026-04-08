@@ -10,11 +10,11 @@ Saya telah membuat sistem otomatis untuk generate **34 folder website portal ber
 Template konfigurasi untuk 34 portal berita. Berisi:
 - **folderName**: Nama folder untuk setiap site (site-01, site-02, dst)
 - **siteName**: Nama portal berita (akan replace "BizNews")
-- **email**: Email portal (akan replace "IndonesiaDaily33@gmail.com")
-- **socialHandle**: Handle social media (akan replace "indonesiadaily")
+- **email**: Email portal (akan replace "bandungbersuara@gmail.com")
+- **socialHandle**: Handle social media (akan replace "bandungbersuara")
 - **colors**: Tema warna
-  - **primary**: Warna utama kuning (contoh: #FFCC00 → custom)
-  - **dark**: Warna gelap hitam (contoh: #1E2024 → custom)
+  - **primary**: Warna utama kuning (contoh: #BE123C → custom)
+  - **dark**: Warna gelap hitam (contoh: #4C0519 → custom)
   - **secondary**: Warna sekunder
 
 ### 2. **`tools/generate-sites.js`**
@@ -114,12 +114,12 @@ Script akan mengganti di **semua file** (.html, .css, .js):
 | Yang Direplac | Diganti Dengan |
 |---|---|
 | `BizNews` | `siteName` dari config |
-| `IndonesiaDaily` | `siteName` (tanpa spaces) |
-| `indonesiadaily` | `socialHandle` |
-| `IndonesiaDaily33@gmail.com` | `email` |
-| `#FFCC00` (primary) | Warna primary dari config |
-| `#1E2024` (dark) | Warna dark dari config |
-| `#31404B` (secondary) | Warna secondary dari config |
+| `bandungbersuara` | `siteName` (tanpa spaces) |
+| `bandungbersuara` | `socialHandle` |
+| `bandungbersuara@gmail.com` | `email` |
+| `#BE123C` (primary) | Warna primary dari config |
+| `#4C0519` (dark) | Warna dark dari config |
+| `#1F5F1F` (secondary) | Warna secondary dari config |
 
 ---
 
